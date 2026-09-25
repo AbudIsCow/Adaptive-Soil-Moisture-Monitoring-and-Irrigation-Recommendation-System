@@ -15,7 +15,7 @@ void setup() {
   }
   if (!SD.exists("/test.csv")) {
     File dataFile = SD.open("/test.csv", FILE_WRITE);
-    if (!SD.open("/test.csv", FILE_WRITE)) {
+    if (!SD.open("/test.csv")) {
       while (true) {
         Serial.println("Writing header has failed.");
         delay(1000);
@@ -37,16 +37,15 @@ void loop() {
   unsigned long soil_ADC = analogRead(SOIL_MOISTURE_PIN);
 
   File dataFile = SD.open("/test.csv", FILE_APPEND);
-  if (!SD.open("/test.csv", FILE_WRITE)) {
-      fail = 1;
+  if (!dataFile) {
+    fail = 1;
   }
-  dataFile.print(count);
-  dataFile.print(",");
-  dataFile.print(timeStamp);
-  dataFile.print(",");
-  dataFile.println(soil_ADC);
-  dataFile.close();
   if (fail == 0) {
+    dataFile.print(count);
+    dataFile.print(",");
+    dataFile.print(timeStamp);
+    dataFile.print(",");
+    dataFile.println(soil_ADC);
     Serial.print(count);
     Serial.print(",");
     Serial.print(timeStamp);
@@ -54,16 +53,10 @@ void loop() {
     Serial.println(soil_ADC);
   }
   if (fail == 1) {
-      Serial.print(count);
-      Serial.print(",");
-      Serial.print(timeStamp);
-      Serial.print(",");
-      Serial.print(soil_ADC);
-      Serial.print(",");
       Serial.println("FAILED");
       fail = 0;
   }
-    
+  dataFile.close();
   count = count + 1;
   delay(5000);
 }
