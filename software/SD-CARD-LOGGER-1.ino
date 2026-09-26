@@ -15,7 +15,7 @@ void setup() {
   }
   if (!SD.exists("/test.csv")) {
     File dataFile = SD.open("/test.csv", FILE_WRITE);
-    if (!SD.open("/test.csv")) {
+    if (!dataFile)) {
       while (true) {
         Serial.println("Writing header has failed.");
         delay(1000);
