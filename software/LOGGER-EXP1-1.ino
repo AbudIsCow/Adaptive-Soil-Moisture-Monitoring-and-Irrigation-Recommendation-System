@@ -23,8 +23,8 @@ void setup() {
       delay(1000);
     }
   }
-  if (!SD.exists("/exp4-1.csv")) {
-    File dataFile = SD.open("/exp4-1.csv", FILE_WRITE);
+  if (!SD.exists("/exp1-1.csv")) {
+    File dataFile = SD.open("/exp1-1.csv", FILE_WRITE);
     if (!dataFile) {
       while (true) {
         Serial.println("Writing header has failed.");
@@ -55,9 +55,9 @@ void loop() {
   float temp_c = rtc.getTemperature();
   char timeStamp[20];
   sprintf(timeStamp, "%04u-%02u-%02u %02u:%02u:%02u", now.year(), now.month(), now.day(), now.hour(), now.minute(), now.second());
-  File dataFile = SD.open("/exp4-1.csv", FILE_APPEND);
+  File dataFile = SD.open("/exp1-1.csv", FILE_APPEND);
   if (!dataFile) {
-    Serial.println("...");
+    Serial.println("Couldn't open the file for writing.");
     return;
   }
   dataFile.print(timeStamp);
